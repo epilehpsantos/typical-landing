@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Typical</title>
+<meta name="description" content="How Typical processes your data. Privacy by architecture: Typical cannot read your client conversations.">
+<style>
+  :root{
+    --page:#FFFFFF; --surface:#F8F4EC; --ink:#1A1A1A; --muted:#6B6B6B;
+    --line:#ECE6DA; --accent:#5B6236;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--page);color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:720px;margin:0 auto;padding:48px 24px 96px}
+  .brand{font-weight:700;font-size:15px;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
+  h1{font-size:30px;line-height:1.2;letter-spacing:-.02em;margin:28px 0 6px}
+  .updated{color:var(--muted);font-size:14px;margin:0 0 32px}
+  h2{font-size:18px;letter-spacing:-.01em;margin:34px 0 10px}
+  p{margin:0 0 12px}
+  ul{margin:8px 0 12px;padding-left:20px}
+  li{margin:0 0 8px}
+  .promise{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:18px 0}
+  .promise h2{margin-top:0}
+  a{color:var(--accent)}
+  footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+  footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="brand" href="index.html">typical.</a>
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last Updated: 2026-06-04</p>
+
+  <h2>Data Controller</h2>
+  <p>Phelipe Santos Beserra, based in Valencia, Spain, acts as the data controller for Typical account data. For any privacy request, contact <a href="mailto:privacy@typical.so">privacy@typical.so</a>.</p>
+
+  <div class="promise">
+    <h2>Privacy by Architecture (the core promise)</h2>
+    <p>Typical cannot read the conversations you have with your clients in iMessage, WhatsApp, Signal, Telegram, SMS, or email. Apple's keyboard sandbox prevents that and there is no background scraping — every request is one you explicitly start. This is not a marketing claim; it is enforced by the way the product is built.</p>
+    <ul>
+      <li>Apple's iOS keyboard sandbox prevents Typical from reading any other app's content. We do not request, and do not ship, any entitlement that would change this.</li>
+    </ul>
+  </div>
+
+  <h2>Data We Process</h2>
+  <p>Typical processes the following categories of data to deliver drafting, CRM, and workflow features:</p>
+  <ul>
+    <li>Account identifiers, including social sign-in identifiers from Apple or Google.</li>
+    <li>Usage metadata (timestamps, feature events, action outcomes).</li>
+    <li>Legal-consent timestamps.</li>
+    <li>User-provided content (client records, asset descriptions, voice notes, message drafts).</li>
+  </ul>
+
+  <h2>Sign-In with Google</h2>
+  <p>When you sign in with Google, Typical receives only your Google account email, profile name, and a stable account identifier. We do not request access to your Gmail inbox or any other Google data through the sign-in flow.</p>
+
+  <h2>Gmail Integration (Optional)</h2>
+  <p>If you choose to connect Gmail to send messages from Typical, we request a single scope: <code>gmail.send</code>. Typical's use of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+  <ul>
+    <li>Typical can only send messages on your behalf — it cannot read, modify, or delete any message in your inbox.</li>
+    <li>Every send is triggered by a draft that you explicitly review and confirm in the in-app email review surface.</li>
+    <li>Refresh tokens and access tokens are stored encrypted in your private Firestore user document and are never shared with third parties.</li>
+    <li>You can disconnect Gmail at any time from Account Settings; this revokes Typical's tokens immediately.</li>
+  </ul>
+
+  <h2>Sign-In with Apple</h2>
+  <p>Sign in with Apple is processed entirely between your device and Apple. Typical receives only the identifier and the optional name you choose to share on first sign-in.</p>
+
+  <h2>Client Profile Fields</h2>
+  <p>Client profile fields that you edit manually (for example budget, phone, email, and profession) are stored to keep CRM records accurate and to support profile-level workflows.</p>
+
+  <h2>Analytics Telemetry</h2>
+  <p>Typical logs timestamped product usage events (for example AI assists generated, action outcomes, and workflow execution states) to power period-based analytics requested in the conversational interface. These analytics events are used for product reporting and are not sold to third parties.</p>
+
+  <h2>Voice Note Processing</h2>
+  <p>When you record voice notes, audio is securely transmitted to our backend and processed by OpenAI's transcription service to convert speech into text. This transcription is used only to power Typical features and is handled according to our data processing policies. Audio is not retained after transcription.</p>
+
+  <h2>Contacts Processing</h2>
+  <p>When you explicitly request a native contact import, Typical asks iOS Contacts permission and reads only the selected contact fields (name, phone, email, company, title, birthday) to prefill a CRM client draft. This access is read-only and only used to enrich the client dossier you approve.</p>
+
+  <h2>OpenAI Usage</h2>
+  <p>Typical uses OpenAI APIs to generate drafts, suggestions, transcriptions, and matching results. Content you submit for processing is sent to OpenAI under their API data usage policy. OpenAI retains API request data for up to 30 days for abuse monitoring and then deletes it. API request data is not used to train OpenAI models.</p>
+
+  <h2>Storage &amp; Security</h2>
+  <p>Data is stored in Firebase services (Firestore, Authentication, Cloud Functions) hosted by Google Cloud and protected with standard technical controls including TLS in transit and encryption at rest. Consent and legal acceptance metadata are logged for compliance.</p>
+
+  <h2>Data Boundaries (per surface)</h2>
+  <ul>
+    <li>Keyboard (ClefKeyboard): only text you explicitly type or paste into the Typical keyboard leaves the device. The keyboard cannot read other apps' content.</li>
+    <li>Share extension (ClefShare): only items you explicitly tap "Share to Typical" on are ingested. No network calls happen inside the extension itself; it only copies the file to a local App Group container for the main app to process.</li>
+    <li>Backend logging: per AI request, the server stores model name, token counts, and cost estimate. It does not store the system prompt, the user message body, the conversation history, or the model's reply.</li>
+  </ul>
+
+  <h2>Data Retention &amp; Deletion</h2>
+  <p>You can delete your Typical account at any time from Account Settings. For your security, we may ask you to sign in again to confirm it's you before deletion. Deletion removes your CRM records, drafts, voice notes, Gmail tokens, and analytics events from our production systems and propagates within 30 days. AI usage events older than 12 months are aggregated (per-event rows are dropped, only monthly totals are retained for billing and capacity planning). Firebase backups rotate on the standard 30-day cycle.</p>
+
+  <h2>Data Subject Rights (GDPR)</h2>
+  <p>If you are in the EU/EEA you have the following rights under the General Data Protection Regulation (Articles 15–22):</p>
+  <ul>
+    <li>Right of access to your personal data (Art. 15).</li>
+    <li>Right to rectification of inaccurate data (Art. 16).</li>
+    <li>Right to erasure / "right to be forgotten" (Art. 17).</li>
+    <li>Right to restriction of processing (Art. 18).</li>
+    <li>Right to data portability in a machine-readable format (Art. 20).</li>
+    <li>Right to object to processing based on legitimate interests (Art. 21).</li>
+    <li>Right to withdraw consent at any time, without affecting the lawfulness of prior processing.</li>
+    <li>Right to lodge a complaint with a supervisory authority. In Spain this is the Agencia Española de Protección de Datos (AEPD).</li>
+  </ul>
+  <p>To exercise any of these rights, write to <a href="mailto:privacy@typical.so">privacy@typical.so</a>. We respond within 30 days as required by Art. 12(3).</p>
+
+  <h2>Jurisdiction</h2>
+  <p>Typical is operated from Valencia, Spain. Privacy matters are governed under Spanish and EU law (GDPR and the Spanish Ley Orgánica 3/2018, LOPDGDD).</p>
+
+  <footer>
+    <p>© 2026 Typical — Phelipe Santos Beserra, Valencia, Spain · <a href="terms.html">Terms of Service</a> · <a href="index.html">Home</a></p>
+  </footer>
+</div>
+</body>
+</html>
