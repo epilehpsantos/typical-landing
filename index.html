@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Typical — Sales memory, not a CRM</title>
+<meta name="description" content="The first mobile memory platform for elite sellers. Everything about every client, surfaced in your keyboard inside WhatsApp.">
+<meta property="og:title" content="Typical — Sales memory, not a CRM">
+<meta property="og:description" content="Everything about every client — in your keyboard, inside WhatsApp. Built for the 1% CRMs were never built for.">
+<meta property="og:image" content="https://typical.so/og-image.png">
+<meta property="og:url" content="https://typical.so">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Typical — Sales memory, not a CRM">
+<meta name="twitter:description" content="Everything about every client — in your keyboard, inside WhatsApp.">
+<meta name="twitter:image" content="https://typical.so/og-image.png">
+<style>
+  :root{
+    --bg:#FFFFFF;
+    --surface:#F8F4EC;
+    --surface-deep:#F1EADC;
+    --ink:#27271F;
+    --ink-soft:rgba(39,39,31,.87);
+    --ink-secondary:#76766C;
+    --dark:#1C1C16;
+    --paper:#F8F4EC;
+    --accent:#007AFF;
+    --radius:20px;
+    --ease:cubic-bezier(.22,.61,.18,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink-soft);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden;
+  }
+  .wrap{max-width:700px;margin:0 auto;padding:0 24px}
+  .serif{font-family:"New York",Georgia,"Times New Roman",serif;font-style:italic;font-weight:500}
+
+  /* ambient background */
+  .glow{
+    position:fixed;top:-220px;left:50%;width:900px;height:700px;
+    transform:translateX(-50%);pointer-events:none;z-index:-1;
+    background:radial-gradient(ellipse at center,var(--surface) 0%,rgba(248,244,236,0) 65%);
+    animation:breathe 9s ease-in-out infinite alternate;
+  }
+  @keyframes breathe{from{opacity:.55}to{opacity:1}}
+
+  header{padding:30px 0;display:flex;justify-content:space-between;align-items:center}
+  .logo-full svg{height:26px;width:auto;display:block}
+  .header-cta{font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;
+    background:var(--surface);padding:9px 18px;border-radius:100px;transition:background .3s var(--ease)}
+  .header-cta:hover{background:var(--surface-deep)}
+
+  /* entrance animation */
+  .rise{opacity:0;transform:translateY(26px);animation:rise .9s var(--ease) forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .d1{animation-delay:.08s}.d2{animation-delay:.2s}.d3{animation-delay:.34s}.d4{animation-delay:.5s}.d5{animation-delay:.66s}
+
+  /* ---- HERO ---- */
+  .hero{padding:96px 0 28px;text-align:left}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;background:var(--surface);border-radius:100px;
+    padding:7px 16px;font-size:13px;font-weight:600;color:var(--ink-secondary);margin-bottom:28px;
+  }
+  .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2.2s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.8)}}
+  h1{font-size:clamp(38px,6.8vw,58px);font-weight:700;letter-spacing:-.025em;line-height:1.06;color:var(--ink)}
+  h1 .serif{font-weight:500}
+  .hero p.sub{font-size:18px;color:var(--ink-secondary);margin-top:22px;max-width:600px}
+  .cta-row{margin-top:34px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .btn{
+    display:inline-block;background:var(--accent);color:#fff;text-decoration:none;
+    font-size:16px;font-weight:600;padding:15px 30px;border-radius:100px;
+    transition:transform .35s var(--ease),box-shadow .35s var(--ease);
+    box-shadow:0 1px 2px rgba(0,122,255,.25);
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px -8px rgba(0,122,255,.45)}
+  .btn-sm{font-size:14px;padding:10px 20px}
+  .cta-note{font-size:13px;color:var(--ink-secondary)}
+
+  /* ---- rolling action cards (keyboard + brain) ---- */
+  .demo{padding:80px 0 8px}
+  .roll{
+    height:108px;overflow:hidden;position:relative;
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 24%,#000 76%,transparent 100%);
+    mask-image:linear-gradient(to bottom,transparent 0,#000 24%,#000 76%,transparent 100%);
+  }
+  .roll-track{
+    display:flex;flex-direction:column;gap:16px;width:min(460px,100%);
+    animation:rollup 30s linear infinite;will-change:transform;
+  }
+  @keyframes rollup{to{transform:translateY(-50%)}}
+  .rcard{
+    display:flex;align-items:center;gap:16px;flex:none;
+    background:#F6F5F2;border-radius:18px;padding:15px 18px;
+    box-shadow:0 8px 20px -18px rgba(39,39,31,.3);
+  }
+  .rcard .ic{
+    flex:none;width:46px;height:46px;border-radius:12px;background:var(--surface);
+    display:flex;align-items:center;justify-content:center;color:var(--ink);
+  }
+  .rcard .ic svg{width:22px;height:22px;display:block}
+  .rcard .tt{font-size:16px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .rcard .ss{font-size:13px;color:var(--ink-secondary);margin-top:1px}
+  .demo-caption{text-align:left;font-size:13px;color:var(--ink-secondary);margin-top:18px}
+
+  /* ---- sections + scroll reveal ---- */
+  .section{padding:88px 0 8px}
+  .section h2.kicker{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-secondary);margin-bottom:18px}
+  .section h2.big{font-size:clamp(26px,4.6vw,36px);font-weight:700;letter-spacing:-.02em;line-height:1.15;color:var(--ink);margin-bottom:18px}
+  .section p.body{font-size:16.5px;color:var(--ink-soft);max-width:620px}
+  .section p.body + p.body{margin-top:14px}
+  .section p.body strong{color:var(--ink);font-weight:650}
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .reveal.on{opacity:1;transform:none}
+
+  /* ---- dark section (final) ---- */
+  .dark{background:var(--dark);color:rgba(248,244,236,.85);margin:96px 0;padding:110px 0}
+  .dark h2.big{color:var(--paper)}
+  .dark p.body{color:rgba(248,244,236,.8)}
+  .dark p.body strong{color:var(--paper)}
+  .dark .kicker{color:rgba(248,244,236,.5)}
+
+  /* ---- soft gray section (enemy) ---- */
+  .gray{background:#F1EFEA;margin:96px 0;padding:110px 0}
+  .gray .kicker{color:var(--ink-secondary)}
+  .punch{
+    font-family:"New York",Georgia,"Times New Roman",serif;font-style:italic;font-weight:500;
+    font-size:clamp(32px,6.4vw,56px);line-height:1.12;letter-spacing:-.015em;color:var(--ink);
+    margin-top:44px;
+  }
+  .punch em{font-style:italic;color:#A87708}
+
+  /* steps */
+  .steps{counter-reset:step;margin-top:8px}
+  .step{display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--surface)}
+  .step:last-child{border-bottom:none}
+  .step .num{
+    counter-increment:step;flex:none;width:30px;height:30px;border-radius:50%;
+    background:var(--surface);font-size:13px;font-weight:650;color:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .step .num::before{content:counter(step)}
+  .step p{font-size:15.5px}
+  .step p strong{font-weight:650;color:var(--ink);display:block;margin-bottom:2px}
+  .step p span{color:var(--ink-secondary)}
+
+  /* quiet card (privacy) */
+  .quiet{background:var(--surface);border-radius:var(--radius);padding:30px}
+  .quiet p{font-size:15.5px;color:var(--ink-soft)}
+
+  /* ---- works everywhere (app logos) ---- */
+  .apps{display:flex;flex-wrap:wrap;gap:26px 38px;align-items:center;margin-top:30px}
+  .app{display:flex;align-items:center;gap:10px;color:var(--ink-secondary);font-weight:600;font-size:15px}
+  .app img,.app svg{height:26px;width:26px;display:block;opacity:.85}
+  .app img{filter:grayscale(1) opacity(.85)}
+
+  /* ---- request form ---- */
+  .formcard{background:var(--surface);border-radius:24px;padding:34px;margin-top:10px}
+  .formcard form{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field.full{grid-column:1/-1}
+  .field label{font-size:13px;font-weight:600;color:var(--ink)}
+  .field input,.field select,.field textarea{
+    font:inherit;font-size:15px;color:var(--ink);background:#fff;border:1px solid #E5DFD2;
+    border-radius:12px;padding:12px 14px;outline:none;-webkit-appearance:none;appearance:none;
+    transition:border-color .3s var(--ease)}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+  .field textarea{resize:vertical;min-height:88px}
+  .form-foot{grid-column:1/-1;display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:4px}
+  .form-foot .btn{border:none;cursor:pointer}
+  .form-note{font-size:12.5px;color:var(--ink-secondary)}
+  .form-ok{display:none;grid-column:1/-1;font-size:15.5px;font-weight:600;color:#0F6E56;padding:6px 0}
+  @media(max-width:560px){.formcard form{grid-template-columns:1fr}.formcard{padding:24px}}
+
+  /* final */
+  .final{text-align:center;padding:0}
+  .final .mark svg{height:34px;width:auto;margin-bottom:22px}
+  .final .mark svg path{fill:#F8F4EC}
+  .final h2{font-size:clamp(26px,4.6vw,34px);font-weight:700;letter-spacing:-.015em;color:var(--paper);margin-bottom:12px}
+  .final p{font-size:15.5px;color:rgba(248,244,236,.75);margin-bottom:30px;max-width:480px;margin-left:auto;margin-right:auto}
+  .final .cta-note{display:block;margin-top:18px;color:rgba(248,244,236,.55)}
+
+  footer{padding:36px 0 56px;text-align:center;font-size:13px;color:var(--ink-secondary)}
+  footer a{color:inherit}
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+    .rise,.reveal{opacity:1;transform:none}
+    .roll-track{animation:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="glow" aria-hidden="true"></div>
+
+<header class="wrap rise">
+  <span class="logo-full" aria-label="typical.">
+    <!-- full wordmark from clef/Assets.xcassets/full-logo.imageset -->
+    <svg viewBox="0 0 256 73" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="typical.">
+      <path d="M56.6194 19.0257H49.4641V21.9752L55.2382 22.8891L48.1452 42.6942C47.7713 43.7432 46.2862 43.7536 45.902 42.6942L38.6532 22.8268L44.5208 21.9752V19.0049H27.2816L14.6222 18.9842L14.913 8.67139H8.9L6.05449 18.9738H0V21.9648L5.53524 22.8164V39.5059C5.53524 42.4242 5.46255 44.2105 5.46255 46.4226C5.46255 53.007 9.06616 55.863 15.048 55.863C19.6693 55.863 22.951 54.056 24.8722 50.9507L23.0964 49.0398C21.4036 50.2964 20.0432 50.9092 18.5373 50.9092C16.1592 50.9092 14.5391 49.289 14.5391 45.5918V22.8164H25.89C27.6243 22.8164 29.182 23.855 29.8467 25.4647L43.0046 57.1924L42.8384 57.6701C41.5091 61.4296 39.5256 64.8984 36.8878 67.3909L36.4412 66.8405C34.4265 64.3584 32.4637 63.7145 30.4906 63.7145C27.8943 63.7145 25.5057 65.0126 24.9242 67.7025C25.0592 70.7558 28.372 72.9991 32.1937 72.9991C38.7363 72.9991 42.5165 67.6194 46.8886 56.1331L59.6726 22.7437L63.8578 21.944V18.9946H56.6298L56.6194 19.0257Z" fill="#27271F" fill-opacity="0.87"/>
+      <path d="M91.3865 17.9663C87.2221 17.9663 83.5354 19.6799 80.2017 23.2941L79.7863 18.6829L78.6128 17.9663L66.1611 22.7021V25.4854L67.6566 25.6723C69.8582 25.9527 71.5302 27.791 71.5925 30.0031C71.6341 31.4467 71.6548 33.0149 71.6548 35.1958V56.0291C71.6548 59.851 71.6133 63.8701 71.5198 68.2113L66.3896 69.1979V72.2824H86.4432V69.1979L80.5652 68.0763C80.4821 63.7559 80.4302 59.7159 80.4302 55.9356V51.3453C83.203 54.544 86.3601 55.8837 90.1506 55.8837C98.7391 55.8837 105.811 48.5516 105.811 36.764C105.811 24.9765 99.4245 17.9663 91.3865 17.9663ZM87.2947 50.639C84.8646 50.639 82.7876 49.6524 80.6587 47.6896V30.8339C80.6587 27.3548 82.9746 24.1872 86.3705 23.4395C86.8586 23.3356 87.3363 23.2733 87.814 23.2733C92.7677 23.2733 96.2363 27.9364 96.2363 37.1691C96.2363 46.4018 92.3419 50.6287 87.2844 50.6287L87.2947 50.639Z" fill="#27271F" fill-opacity="0.87"/>
+      <path d="M120.339 10.9978C123.486 10.9978 125.988 8.77532 125.988 5.65967C125.988 2.54403 123.486 0.321533 120.339 0.321533C117.192 0.321533 114.689 2.4921 114.689 5.65967C114.689 8.82724 117.192 10.9978 120.339 10.9978Z" fill="#27271F" fill-opacity="0.87"/>
+      <path d="M124.889 39.1215V29.2242L125.117 18.7452L123.912 17.9663L110.401 22.7021V25.4854L111.668 25.6412C114.047 25.9424 115.864 27.926 115.926 30.325C115.968 31.8205 115.989 33.4614 115.989 35.5801V39.1215C115.989 42.3618 115.947 47.0976 115.874 50.8052L110.983 51.7711V54.8244H129.531V51.7711L125.003 50.8571C124.93 47.1391 124.889 42.3826 124.889 39.1319V39.1215Z" fill="#27271F" fill-opacity="0.87"/>
+      <path d="M154.787 49.9339C148.141 49.9339 143.572 44.9904 143.572 35.9862C143.572 26.1408 148.235 21.5816 153.614 21.5816C154.528 21.5816 155.452 21.675 156.376 21.862L157.332 26.3277C157.768 29.9315 159.482 31.5828 162.202 31.5828C164.487 31.5828 165.827 30.5235 166.419 28.2387C165.671 22.4851 160.136 17.957 152.845 17.957C142.793 17.957 134.152 25.0088 134.152 37.004C134.152 48.9992 141.598 55.8744 151.817 55.8744C158.869 55.8744 163.958 52.7069 166.419 46.5587L164.217 44.9489C161.984 48.0542 158.744 49.9339 154.787 49.9339Z" fill="#27271F" fill-opacity="0.87"/>
+      <path d="M203.028 51.1575C201.636 51.1575 200.805 50.2124 200.805 47.8029V31.4873C200.805 21.7665 197.035 17.9758 188.374 17.9758C179.225 17.9758 173.441 21.8496 172.537 27.8005C172.911 29.9711 174.406 31.1758 176.753 31.1758C179.1 31.1758 180.991 29.566 181.416 25.9727L182.289 21.8496C183.473 21.6523 184.49 21.5796 185.425 21.5796C190.275 21.5796 191.957 23.4594 191.957 30.428V32.5571C189.371 33.2217 186.754 33.9799 184.843 34.603C174.053 38.1029 171.457 41.6547 171.457 46.4217C171.457 52.601 175.746 55.8828 181.364 55.8828C186.11 55.8828 188.551 53.8992 192.238 50.1397C193.089 53.6396 195.675 55.7478 199.642 55.7478C203.204 55.7478 205.551 54.4704 207.348 51.0017L205.603 49.5165C204.752 50.6278 204.045 51.1575 203.017 51.1575H203.028ZM191.968 43.4099C191.968 46.2659 190.327 48.9661 187.658 50.0151C186.92 50.3058 186.245 50.4201 185.466 50.4201C182.496 50.4201 180.201 48.7688 180.201 44.9158C180.201 42.0598 181.686 39.3803 186.723 37.3655C187.99 36.8255 189.911 36.1816 191.968 35.5792V43.3995V43.4099Z" fill="#27271F" fill-opacity="0.87"/>
+      <path d="M223.629 39.1221V11.2267L223.93 0.685442L222.798 0L209.215 3.3649V6.25206C212.32 6.67787 214.625 9.32617 214.625 12.4626V39.1117C214.625 43.0063 214.574 46.8905 214.49 50.785L209.412 51.7613V54.8146H228.853V51.7613L223.775 50.8162C223.692 46.9112 223.64 43.0167 223.64 39.1117L223.629 39.1221Z" fill="#27271F" fill-opacity="0.87"/>
+      <path d="M245.884 36.0687C240.701 36.0687 236.506 40.2645 236.506 45.4468C236.506 50.6292 240.701 54.8249 245.884 54.8249C251.066 54.8249 255.261 50.6292 255.261 45.4468C255.261 40.2645 251.066 36.0687 245.884 36.0687Z" fill="#27271F" fill-opacity="0.87"/>
+    </svg>
+  </span>
+  <a class="btn btn-sm" href="#request">Request access</a>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero wrap">
+  <span class="badge rise d1"><span class="dot"></span>Private TestFlight — first 10 sellers</span>
+  <h1 class="rise d2">Sales memory.<br>Not a <span class="serif">CRM.</span></h1>
+  <p class="sub rise d3">The first mobile memory platform for elite sellers. Everything about every client — surfaced in your keyboard while you sell, inside WhatsApp. Built for the 1% CRMs were never built for.</p>
+  <div class="cta-row rise d4">
+    <a class="btn" href="#request">Request access</a>
+    <span class="cta-note">iOS · First 10 sellers · Founding price locked forever</span>
+  </div>
+</section>
+
+<!-- ============ ROLLING CARDS ============ -->
+<section class="demo wrap rise d5">
+  <div class="roll" aria-label="What Typical does, from your keyboard and your brain app">
+    <div class="roll-track" id="rollTrack"></div>
+  </div>
+  <p class="demo-caption">Your keyboard and your brain, working while you type.</p>
+</section>
+
+<!-- ============ SECTION 2 — THE ENEMY (soft gray) ============ -->
+<div class="gray">
+  <section class="wrap">
+    <h2 class="kicker reveal">The enemy</h2>
+    <h2 class="big reveal">Everyone's building bots to replace you. We built the opposite.</h2>
+    <p class="body reveal">Meta now sells an AI agent that answers your clients for you. Apple's keyboard will autocomplete your sentences. Fine — for selling sneakers.</p>
+    <p class="body reveal">But nobody delegates a six-figure deal to a bot. Your clients don't buy from a company. They buy from <strong>you</strong> — your judgment, your relationship, your memory of who they are.</p>
+    <p class="punch reveal">Nobody buys a house, a car, or a Rolex from a robot.<br><em>They buy from you.</em></p>
+    <p class="body reveal" style="margin-top:22px">Typical never speaks to your clients. It remembers for you — <strong>so the one they hear from is always you, at your sharpest.</strong></p>
+  </section>
+</div>
+
+<!-- ============ SECTION 3 — WHAT IS SALES MEMORY ============ -->
+<section class="section wrap">
+  <h2 class="kicker reveal">Sales memory</h2>
+  <h2 class="big reveal">Your memory is your best closing skill. Now it's flawless.</h2>
+  <p class="body reveal">Sales memory is everything you know about a client — what they bought, what they're looking for, what you promised, their kids' names, the deal that almost happened. CRMs ask you to type all that into forms. You never do. So it lives in your head, until it doesn't.</p>
+  <p class="body reveal">Typical captures it from how you already work — and hands it back exactly when you need it: <strong>while you're typing.</strong></p>
+</section>
+
+<!-- ============ SECTION 4 — HOW IT WORKS ============ -->
+<section class="section wrap">
+  <h2 class="kicker reveal">How it works</h2>
+  <h2 class="big reveal">Three steps to perfect memory.</h2>
+  <div class="steps reveal">
+    <div class="step"><span class="num"></span><p><strong>Connect your clients.</strong><span>Import your contacts or add clients as you close them. Typical builds a living file for each one — preferences, family, deals, promises. Not a database you maintain. A memory that grows.</span></p></div>
+    <div class="step"><span class="num"></span><p><strong>Talk to your brain.</strong><span>Leave a voice memo after the meeting. Drop a quick note between calls. Or just keep selling — Typical captures context from how you already work. No forms. No fields. No admin.</span></p></div>
+    <div class="step"><span class="num"></span><p><strong>Sell with your keyboard.</strong><span>Open WhatsApp. Start typing. Typical shows you who this client is, what they care about, and what moves the deal — right there, above your keys. You type; it remembers.</span></p></div>
+  </div>
+</section>
+
+<!-- ============ SECTION 5 — WHO IT'S FOR ============ -->
+<section class="section wrap">
+  <h2 class="kicker reveal">Who it's for</h2>
+  <h2 class="big reveal">If your deals close in six figures, this was built for you.</h2>
+  <p class="body reveal">Real estate. Watches. Cars. Yachts. Art. Bespoke anything. If your clients are relationships measured in years and deals measured in fortunes — Typical is your unfair advantage.</p>
+  <p class="body reveal">If you sell volume through funnels and chatbots? This isn't for you. <strong>And that's the point.</strong></p>
+</section>
+
+<!-- ============ SECTION 6 — PRIVACY (quiet) ============ -->
+<section class="section wrap">
+  <h2 class="kicker reveal">Privacy</h2>
+  <h2 class="big reveal">Your client list is worth more than your car. We treat it that way.</h2>
+  <div class="quiet reveal">
+    <p>Your data lives encrypted in your account. Never sold. Never shared. Never used to train someone else's AI. Your client intelligence stays on your side of the table — that's not a feature, it's the foundation.</p>
+  </div>
+</section>
+
+<!-- ============ SECTION 6.4 — WORKS EVERYWHERE ============ -->
+<section class="section wrap">
+  <h2 class="kicker reveal">Everywhere you type</h2>
+  <h2 class="big reveal">One keyboard. Every conversation.</h2>
+  <p class="body reveal">Typical lives in your iPhone keyboard — so your memory follows you into every app your clients already use. No new inbox, nothing to check.</p>
+  <div class="apps reveal" aria-label="Works in WhatsApp, iMessage, Gmail, Slack, Instagram, Telegram and email">
+    <span class="app"><img src="https://cdn.simpleicons.org/whatsapp/76766C" alt="" loading="lazy">WhatsApp</span>
+    <span class="app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5c-1.5 0-3-.4-4.2-1L3.5 20l1-4A8.5 8.5 0 1 1 21 11.5z"/></svg>iMessage</span>
+    <span class="app"><img src="https://cdn.simpleicons.org/gmail/76766C" alt="" loading="lazy">Gmail</span>
+    <span class="app"><img src="https://cdn.simpleicons.org/slack/76766C" alt="" loading="lazy">Slack</span>
+    <span class="app"><img src="https://cdn.simpleicons.org/instagram/76766C" alt="" loading="lazy">Instagram</span>
+    <span class="app"><img src="https://cdn.simpleicons.org/telegram/76766C" alt="" loading="lazy">Telegram</span>
+    <span class="app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg>Email</span>
+  </div>
+</section>
+
+<!-- ============ SECTION 6.5 — REQUEST ACCESS FORM ============ -->
+<section class="section wrap" id="request">
+  <h2 class="kicker reveal">Request access</h2>
+  <h2 class="big reveal">Tell us how you sell.</h2>
+  <p class="body reveal">Ten sellers get in this round. We read every request and prioritize high-ticket, relationship-driven markets. If it's not your turn yet, you keep your place in line for the next one.</p>
+  <div class="formcard reveal">
+    <form id="leadForm" novalidate>
+      <div class="field"><label for="f-name">Full name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="f-whatsapp">WhatsApp (with country code)</label><input id="f-whatsapp" name="whatsapp" type="tel" autocomplete="tel" placeholder="+1 305 555 0134" required></div>
+      <div class="field"><label for="f-market">City / market</label><input id="f-market" name="market" type="text" placeholder="Miami, São Paulo, Dubai…"></div>
+      <div class="field"><label for="f-sell">What do you sell?</label>
+        <select id="f-sell" name="sells" required>
+          <option value="" disabled selected>Select…</option>
+          <option>Real estate</option>
+          <option>Cars</option>
+          <option>Watches &amp; jewelry</option>
+          <option>Yachts &amp; aviation</option>
+          <option>Art &amp; collectibles</option>
+          <option>Bespoke services</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field"><label for="f-deal">Average deal size</label>
+        <select id="f-deal" name="dealSize" required>
+          <option value="" disabled selected>Select…</option>
+          <option>Under $50k</option>
+          <option>$50k – $250k</option>
+          <option>$250k – $1M</option>
+          <option>$1M+</option>
+        </select>
+      </div>
+      <div class="field"><label for="f-channel">Where do your deals happen?</label>
+        <select id="f-channel" name="channel" required>
+          <option value="" disabled selected>Select…</option>
+          <option>WhatsApp, daily</option>
+          <option>WhatsApp + iMessage</option>
+          <option>Mostly email / phone</option>
+        </select>
+      </div>
+      <div class="field"><label for="f-iphone">Do you use an iPhone?</label>
+        <select id="f-iphone" name="iphone" required>
+          <option value="" disabled selected>Select…</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </div>
+      <div class="field full"><label for="f-story">The deal that got away — what did you forget? <span style="font-weight:400;color:var(--ink-secondary)">(optional)</span></label>
+        <textarea id="f-story" name="story" placeholder="A promise, a detail, a follow-up that slipped…"></textarea>
+      </div>
+      <div class="form-foot">
+        <button class="btn" type="submit">Request access</button>
+        <span class="form-note">We reply personally. No spam, no list-selling — ever.</span>
+      </div>
+      <p class="form-ok" id="formOk">Request received. If you're in this round, you'll hear from Phelipe directly within a few days.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ SECTION 7 — FINAL CTA (dark) ============ -->
+<div class="dark" style="margin-bottom:0">
+  <section class="final wrap reveal">
+    <span class="mark">
+      <svg viewBox="0 0 31 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20.6856 3.78261H18.0715V4.86011L20.181 5.19398L17.5896 12.4291C17.453 12.8123 16.9105 12.8161 16.7701 12.4291L14.1218 5.17121L16.2655 4.86011V3.77502H9.9672L5.34214 3.76744L5.44838 0H3.25157L2.21198 3.76364H0V4.85631L2.02227 5.16742V11.2644C2.02227 12.3305 1.99572 12.983 1.99572 13.7912C1.99572 16.1966 3.31228 17.2399 5.4977 17.2399C7.18609 17.2399 8.38504 16.5798 9.08696 15.4453L8.43816 14.7473C7.81971 15.2063 7.32268 15.4302 6.77253 15.4302C5.90368 15.4302 5.31179 14.8383 5.31179 13.4876V5.16742H9.45878C10.0924 5.16742 10.6615 5.54682 10.9043 6.13489L15.7115 17.7255L15.6508 17.9001C15.1652 19.2735 14.4405 20.5407 13.4768 21.4512L13.3136 21.2502C12.5776 20.3434 11.8605 20.1082 11.1396 20.1082C10.1911 20.1082 9.3184 20.5824 9.10593 21.5651C9.15525 22.6805 10.3656 23.5 11.7618 23.5C14.1521 23.5 15.5332 21.5347 17.1305 17.3386L21.8011 5.14086L23.3301 4.84872V3.77123H20.6894L20.6856 3.78261Z" fill="#F8F4EC"/><path d="M26.7386 9.9873C24.8453 9.9873 23.3125 11.5201 23.3125 13.4133C23.3125 15.3065 24.8453 16.8393 26.7386 16.8393C28.6319 16.8393 30.1647 15.3065 30.1647 13.4133C30.1647 11.5201 28.6319 9.9873 26.7386 9.9873Z" fill="#F8F4EC"/></svg>
+    </span>
+    <h2>Ten sellers get in this round.</h2>
+    <p>Early access. Direct line to the founder. Founding price — locked forever, before it goes up.</p>
+    <a class="btn" href="#request">Request access</a>
+    <span class="cta-note">iOS only · WhatsApp-first · Built by someone who answers your messages personally</span>
+  </section>
+</div>
+
+<footer class="wrap">
+  © 2026 Typical ·
+  <a href="https://docs.google.com/document/d/e/2PACX-1vSDLYyg8PtqPhx1ka-daIx14HBnFlgzhkwNuMCD0GtZhWZPKzbXxhM5WFqsOaJt4s9Y_3FvYrJB_AZG/pub">Privacy Policy</a> ·
+  <a href="https://docs.google.com/document/d/e/2PACX-1vS4Z3HmlhLfeMS0jiKTMbNEoND4YXw7etqt_cgxKxiDByIxlZdef8s_W2-2moFcwct5m8udI2ZwWNhO/pub">Terms of Service</a>
+</footer>
+
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* scroll reveal */
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('on'); obs.unobserve(e.target);} });
+  },{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+
+  /* rolling cards — main keyboard + brain app actions */
+  var icons={
+    keyboard:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="2.5"/><path d="M6.5 10h.01M10 10h.01M13.5 10h.01M17 10h.01M6.5 13h.01M17 13h.01M8.5 15.5h7"/></svg>',
+    mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>',
+    person:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.2" r="3.6"/><path d="M5 20c.8-3.4 3.6-5.2 7-5.2s6.2 1.8 7 5.2"/></svg>',
+    camera:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5A2.5 2.5 0 0 1 6 6h1.6l1.2-2h6.4l1.2 2H18a2.5 2.5 0 0 1 2.5 2.5v8A2.5 2.5 0 0 1 18 19H6a2.5 2.5 0 0 1-2.5-2.5z"/><circle cx="12" cy="12.5" r="3.4"/></svg>',
+    bubble:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8c-1.4 0-2.8-.3-4-.9L3 20l1-5.4A8 8 0 1 1 21 12z"/></svg>',
+    calendar:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',
+    bell:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9.5a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6M10 19.5a2.2 2.2 0 0 0 4 0"/></svg>',
+    mail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg>',
+    sparkle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 13.8 9 19.5 11 13.8 13 12 18.5 10.2 13 4.5 11 10.2 9z"/></svg>'
+  };
+  var actions=[
+    {ic:'person',  tt:'Client recognized',          ss:'Daniel · cash buyer · wants west light'},
+    {ic:'keyboard',tt:'Recap above your keys',      ss:'Last exchange: Amira asked for the HOA letter'},
+    {ic:'mic',     tt:'Voice memo → client file',   ss:'“Sofia wants the garden house — close before August”'},
+    {ic:'bubble',  tt:'Reply drafted, in your tone',ss:'WhatsApp · you review, you send'},
+    {ic:'camera',  tt:'Photo → asset saved',        ss:'Penthouse 12B · 4BR · $8.4M'},
+    {ic:'bell',    tt:'Promise tracked',            ss:'Send the inspection report — due today'},
+    {ic:'calendar',tt:'Daily plan ready',           ss:'3 follow-ups: Daniel, Sofia, Brickell showing'},
+    {ic:'mail',    tt:'Email scheduled',            ss:'Monday 9:00 — full packet for the attorney'},
+    {ic:'sparkle', tt:'Matched from memory',        ss:'2 clients are looking for exactly this listing'}
+  ];
+  var track=document.getElementById('rollTrack');
+  function build(){
+    var html='';
+    actions.forEach(function(a){
+      html+='<div class="rcard"><div class="ic">'+icons[a.ic]+'</div><div><div class="tt">'+a.tt+'</div><div class="ss">'+a.ss+'</div></div></div>';
+    });
+    return html;
+  }
+  /* duplicate the list so translateY(-50%) loops seamlessly */
+  track.innerHTML=build()+build();
+  if(reduced){ track.style.animation='none'; }
+
+  /* lead form → Google Sheets (Apps Script webhook; see sheets-webhook.gs) */
+  var SHEETS_WEBHOOK_URL='https://script.google.com/macros/s/AKfycbzqbagE78qFTJ2f1K3YkCcqOH5Zc7GupExN2u5xxE0sX_CJL51MKpJek-8Vnmn_uASa/exec'; /* deployed Apps Script web-app URL (Gmail-owned, writes to typical.so sheet) */
+  var FALLBACK_EMAIL='epilehpsantos@gmail.com';
+  var form=document.getElementById('leadForm');
+  if(form){
+    form.addEventListener('submit',function(ev){
+      ev.preventDefault();
+      if(!form.reportValidity()) return;
+      var data={ts:new Date().toISOString(),source:'landing-alpha'};
+      new FormData(form).forEach(function(v,k){ data[k]=v; });
+      var btn=form.querySelector('button[type=submit]');
+      btn.disabled=true; btn.textContent='Sending…';
+      var finish=function(){
+        form.querySelectorAll('.field,.form-foot').forEach(function(el){ el.style.display='none'; });
+        var ok=document.getElementById('formOk');
+        if(data.iphone==='No'){
+          ok.textContent='Request received. Typical is iOS-first today — we’ll let you know the moment Android is on the map.';
+        }
+        ok.style.display='block';
+      };
+      if(SHEETS_WEBHOOK_URL.indexOf('http')!==0){
+        /* webhook not configured — fail-safe so no lead is ever lost silently */
+        var body=Object.keys(data).map(function(k){return k+': '+data[k];}).join('\n');
+        window.location.href='mailto:'+FALLBACK_EMAIL
+          +'?subject='+encodeURIComponent('Typical access request — '+(data.name||''))
+          +'&body='+encodeURIComponent(body);
+        finish(); return;
+      }
+      fetch(SHEETS_WEBHOOK_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(data)})
+        .catch(function(){})
+        .finally(finish);
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
