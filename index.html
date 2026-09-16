@@ -17,7 +17,6 @@
 <style>
   :root{
     --canvas:#FFFFFF; --stage:#F5F5F5; --ink:#000; --ink-2:rgba(60,60,67,.6); --ink-3:rgba(60,60,67,.3);
-    --cyan:#5CD1FA; --blue:#3385FA; --indigo:#615CEB; --wash:#E9F5FD;
     --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     --mono:ui-monospace,"SF Mono",Menlo,"DM Mono",monospace;
     --serif:"New York","Iowan Old Style",Georgia,"Times New Roman",serif;
@@ -28,81 +27,70 @@
   body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.45;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{color:inherit}
   img{display:block;max-width:100%}
+  button{font:inherit}
   .mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);text-decoration:none}
   .mono.quiet{color:var(--ink-2)}
   .statement{font-weight:400;letter-spacing:-.02em;line-height:1.12;margin:0;text-align:center}
-  .statement.xl{font-size:clamp(34px,5.4vw,64px)}
+  .statement.xl{font-size:clamp(36px,5.6vw,68px)}
   .statement.lg{font-size:clamp(28px,4.2vw,48px)}
-  .wordmark{font-family:var(--serif);font-weight:700;letter-spacing:-.02em;text-decoration:none}
-  .wordmark .dot{color:var(--blue)}
 
-  /* ---- header: sticky white bar, wordmark, mono status, the one pill ---- */
-  header{position:sticky;top:8px;z-index:20;margin:8px 12px 0;background:#fff;border-radius:6px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 0 rgba(0,0,0,.05)}
-  header .wordmark{font-size:26px}
-  header .right{display:flex;align-items:center;gap:22px}
-  .pill{position:relative;display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:999px;background:var(--ink);color:#fff;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;isolation:isolate}
-  .pill::after{content:"";position:absolute;inset:-3px;border-radius:999px;z-index:-1;
-    background:conic-gradient(from var(--a,0deg),var(--cyan),var(--blue),var(--indigo),var(--cyan));
-    animation:sweep 5s linear infinite;opacity:.9}
-  @property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
-  @keyframes sweep{to{--a:360deg}}
+  /* black is the only ink of action */
+  .pill{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:999px;background:var(--ink);color:#fff;border:0;cursor:pointer;
+    font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:transform .2s var(--ease)}
+  .pill:active{transform:scale(.97)}
   .pill.big{height:52px;padding:0 26px;font-size:13px}
+  .pill[disabled]{background:var(--ink-3);cursor:default}
+  .round{width:48px;height:48px;border-radius:50%;background:var(--ink);color:#fff;border:0;display:grid;place-items:center;cursor:pointer;font-size:18px}
 
-  /* ---- hero: photos float around the statement, parallax on scroll ---- */
-  .hero{position:relative;height:170vh;min-height:1100px;overflow:hidden}
-  /* absolutely placed in the first viewport: sticky inside an overflow:hidden box does not pin to the window */
-  .hero .center{position:absolute;top:0;left:0;right:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:0 24px;z-index:2;pointer-events:none}
+  /* ---- header ---- */
+  header{position:sticky;top:8px;z-index:20;margin:8px 12px 0;background:#fff;border-radius:6px;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 0 rgba(0,0,0,.05)}
+  header .logo{height:22px;width:auto}
+  header .right{display:flex;align-items:center;gap:22px}
+
+  /* ---- hero: the statement owns the middle; photos live in the margins and drift ---- */
+  .hero{position:relative;height:190vh;min-height:1200px;overflow:hidden;cursor:crosshair}
+  .hero .center{position:absolute;top:0;left:0;right:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:0 24px;z-index:3;pointer-events:none}
   .hero .center *{pointer-events:auto}
-  /* the statement keeps a pool of white around it, whatever drifts underneath */
-  .hero .center::before{content:"";position:absolute;width:min(90vw,760px);height:min(60vh,420px);border-radius:50%;
-    background:radial-gradient(closest-side,rgba(255,255,255,.96),rgba(255,255,255,.85) 55%,rgba(255,255,255,0));z-index:-1}
-  .hero .center h1{text-shadow:0 0 18px #fff,0 0 36px #fff}
-  .hero .beta{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:40px}
-  .sq{width:48px;height:48px;border-radius:8px;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);display:grid;place-items:center;text-decoration:none;color:var(--ink)}
   .ph{position:absolute;overflow:hidden;will-change:transform;box-shadow:0 20px 50px rgba(0,0,0,.10)}
   .ph img{width:100%;height:100%;object-fit:cover}
-  /* positions as fractions of the hero; sizes in vw so the collage scales with the screen */
-  .p1{left:-2vw;top:4%;width:22vw;height:30vw}
-  .p2{left:24vw;top:9%;width:28vw;height:19vw}
-  .p3{left:56vw;top:2%;width:26vw;height:30vw}
-  .p4{left:86vw;top:20%;width:18vw;height:22vw}
-  .p5{left:4vw;top:44%;width:14vw;height:18vw}
-  .p6{left:-4vw;top:66%;width:24vw;height:30vw}
-  .p7{left:25vw;top:62%;width:16vw;height:12vw}
-  .p8{left:58vw;top:56%;width:15vw;height:18vw}
-  .p9{left:78vw;top:58%;width:30vw;height:34vw}
-  .p10{left:44vw;top:82%;width:26vw;height:18vw}
-  .p11{left:12vw;top:88%;width:20vw;height:14vw}
-  .p12{left:74vw;top:90%;width:16vw;height:20vw}
+  /* left column, right column, bottom band — the middle 32–68vw of the first screen is never touched */
+  .p1{left:-3vw;top:6%;width:26vw;height:32vw}
+  .p2{left:6vw;top:52%;width:20vw;height:14vw}
+  .p3{left:-4vw;top:74%;width:28vw;height:36vw}
+  .p4{right:-3vw;top:4%;width:22vw;height:28vw}
+  .p5{right:4vw;top:48%;width:26vw;height:18vw}
+  .p6{right:-5vw;top:78%;width:30vw;height:34vw}
   @media (max-width:760px){
-    .hero{height:150vh;min-height:900px}
+    .hero{height:170vh;min-height:1000px}
     .ph{box-shadow:0 12px 30px rgba(0,0,0,.12)}
-    .p1{left:-6vw;top:5%;width:40vw;height:50vw}.p2{left:40vw;top:6%;width:44vw;height:30vw}.p3{left:60vw;top:26%;width:46vw;height:52vw}
-    .p4,.p5,.p7,.p11{display:none}
-    .p6{left:-8vw;top:60%;width:42vw;height:54vw}.p8{left:44vw;top:64%;width:30vw;height:36vw}.p9{left:70vw;top:78%;width:40vw;height:46vw}
-    .p10{left:10vw;top:88%;width:44vw;height:30vw}.p12{left:58vw;top:94%;width:30vw;height:36vw}
+    .p1{left:-8vw;top:6%;width:40vw;height:50vw}.p4{right:-8vw;top:4%;width:36vw;height:46vw}
+    .p2{left:4vw;top:58%;width:44vw;height:30vw}.p5{right:2vw;top:66%;width:40vw;height:28vw}
+    .p3{left:-6vw;top:80%;width:44vw;height:56vw}.p6{right:-6vw;top:86%;width:46vw;height:52vw}
   }
+  /* the cursor leaves a trail of photos behind it */
+  .trail{position:absolute;width:clamp(120px,14vw,220px);aspect-ratio:5/4;transform:translate(-50%,-50%) scale(.6);opacity:0;pointer-events:none;z-index:2;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.14);
+    animation:trail 1.4s var(--ease) forwards}
+  .trail img{width:100%;height:100%;object-fit:cover}
+  @keyframes trail{12%{opacity:1;transform:translate(-50%,-50%) scale(1)} 70%{opacity:1;transform:translate(-50%,-50%) scale(1)} 100%{opacity:0;transform:translate(-50%,-52%) scale(.98)}}
 
   /* ---- a photo inside the sentence ---- */
   .inline{padding:clamp(60px,10vw,140px) 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px 22px}
   .inline .ph2{width:clamp(120px,18vw,240px);aspect-ratio:3/4;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.12)}
   .inline .ph2 img{width:100%;height:100%;object-fit:cover}
 
-  /* ---- markets: full-bleed portrait carousel with diagonal lines ---- */
-  .markets{position:relative;height:100vh;min-height:640px;overflow:hidden;background:var(--ink);color:#fff}
-  .slide{position:absolute;inset:0;opacity:0;transition:opacity .9s var(--ease)}
-  .slide.on{opacity:1}
-  .slide img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
-  .slide::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.05) 40%,rgba(0,0,0,.45))}
-  .markets .lines{position:absolute;inset:0;pointer-events:none}
-  .markets .lines svg{width:100%;height:100%}
-  .markets .lines line{stroke:rgba(255,255,255,.85);stroke-width:1}
-  .markets .top{position:absolute;top:22%;left:0;right:0;text-align:center;font-size:17px;z-index:2}
-  .markets .words{position:absolute;bottom:22%;left:0;right:0;text-align:center;font-family:var(--serif);font-size:clamp(30px,4.6vw,48px);line-height:1.12;z-index:2}
-  .markets .words span{display:block}
-  .markets .nav{position:absolute;bottom:8%;left:0;right:0;display:flex;justify-content:center;gap:10px;z-index:3}
-  .round{width:52px;height:52px;border-radius:50%;background:#fff;color:var(--ink);border:0;display:grid;place-items:center;cursor:pointer;font-size:18px}
-  .markets .eyebrow{position:absolute;top:12%;left:0;right:0;text-align:center;z-index:2;color:#fff;opacity:.85}
+  /* ---- markets: a dragged carousel of big photos ---- */
+  .markets{padding:0 0 clamp(60px,8vw,110px)}
+  .markets .head{display:flex;align-items:flex-end;justify-content:space-between;padding:0 24px 18px}
+  .markets .nav{display:flex;gap:8px}
+  .rail{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 24px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab}
+  .rail::-webkit-scrollbar{display:none}
+  .rail.dragging{cursor:grabbing;scroll-snap-type:none}
+  .slide{flex:0 0 min(78vw,560px);scroll-snap-align:start;position:relative}
+  .slide .img{aspect-ratio:5/4;overflow:hidden;background:var(--stage)}
+  .slide img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+  .slide:hover img{transform:scale(1.03)}
+  .slide .cap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-top:12px}
+  .slide .cap .line{font-family:var(--serif);font-size:clamp(20px,2.2vw,26px);letter-spacing:-.01em;line-height:1.2}
 
   /* ---- progressive paragraph ---- */
   .pitch{padding:clamp(80px,12vw,160px) 24px;max-width:1040px;margin:0 auto}
@@ -110,157 +98,115 @@
   .pitch .w{color:var(--ink-3);transition:color .35s}
   .pitch .w.on{color:var(--ink)}
 
-  /* ---- a client, presented like a collection ---- */
-  .client{padding:0 12px clamp(60px,8vw,100px)}
-  .client .meta{display:flex;justify-content:center;gap:22px;margin:0 0 14px}
-  .client h2{text-align:center;font-weight:400;letter-spacing:-.02em;font-size:clamp(26px,3.6vw,40px);margin:0}
-  .client p.sub{text-align:center;color:var(--ink-2);margin:8px 0 26px;font-size:17px}
-  .client .big{aspect-ratio:4/3;max-height:80vh;width:100%;overflow:hidden;background:var(--stage)}
-  .client .big img{width:100%;height:100%;object-fit:cover}
-  @media (min-width:900px){.client .big{aspect-ratio:16/9}}
-
-  /* ---- the loop as three wedges with giant words ---- */
-  .loop{position:relative;padding:8vw 0;overflow:hidden}
-  .wedge{position:relative;padding:clamp(48px,8vw,120px) 24px;text-align:center;font-size:clamp(56px,13vw,180px);font-weight:400;letter-spacing:-.04em;line-height:1}
-  .wedge::before{content:"";position:absolute;left:-10%;right:-10%;top:0;bottom:0;z-index:-1;background:var(--wash)}
-  .wedge:nth-child(1)::before{transform:skewY(-4deg)}
-  .wedge:nth-child(2){background:none}.wedge:nth-child(2)::before{background:transparent}
-  .wedge:nth-child(3)::before{transform:skewY(4deg)}
-  .wedge .mono{display:block;margin-top:12px}
-
-  /* ---- listings: full-bleed rooms carousel ---- */
-  .rooms{position:relative;height:80vh;min-height:520px;overflow:hidden;background:var(--ink);color:#fff}
-  .rooms .track{position:absolute;inset:0;display:flex;transition:transform .8s var(--ease)}
-  .rooms .room{flex:0 0 100%;position:relative}
-  .rooms .room img{width:100%;height:100%;object-fit:cover}
-  .rooms .room::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,0) 45%,rgba(0,0,0,.35))}
-  .rooms .label{position:absolute;bottom:14%;left:0;right:0;text-align:center;font-size:clamp(26px,3.8vw,44px);font-weight:400;letter-spacing:-.02em;z-index:2}
-  .rooms .eyebrow{position:absolute;top:12%;left:0;right:0;text-align:center;z-index:2;color:#fff;opacity:.85}
-  .rooms .nav{position:absolute;bottom:5%;left:0;right:0;display:flex;justify-content:center;gap:10px;z-index:3}
+  /* ---- what it does, as a marquee ---- */
+  .marquee{overflow:hidden;padding:clamp(24px,4vw,48px) 0;border-top:1px solid var(--ink-3);border-bottom:1px solid var(--ink-3)}
+  .marquee .row{display:flex;gap:0;white-space:nowrap;width:max-content;animation:scroll 42s linear infinite}
+  .marquee .row.rev{animation-direction:reverse;font-family:var(--serif)}
+  .marquee:hover .row{animation-play-state:paused}
+  .marquee span{font-size:clamp(28px,4.6vw,64px);letter-spacing:-.02em;padding:0 .45em;line-height:1.3}
+  .marquee span::after{content:"·";color:var(--ink-3);padding-left:.9em}
+  @keyframes scroll{to{transform:translateX(-50%)}}
 
   /* ---- manifesto ---- */
   .manifesto{padding:clamp(100px,16vw,220px) 24px;text-align:center}
   .manifesto p{margin:0;font-size:clamp(24px,3.4vw,40px);line-height:1.3;letter-spacing:-.02em}
   .ring{display:inline-block;padding:0 .3em;border:1.5px solid var(--ink);border-radius:999px;line-height:1.15}
 
-  /* ---- footer card: beta, giant wordmark, the form, links ---- */
+  /* ---- footer card ---- */
   .foot{background:var(--stage);padding:12px}
-  .card{background:#fff;border-radius:6px;padding:clamp(48px,7vw,96px) 24px 32px;display:flex;flex-direction:column;align-items:center;gap:22px}
-  .card .wordmark{font-size:clamp(64px,14vw,180px);line-height:1;letter-spacing:-.04em}
-  .card .wrap{width:100%;max-width:720px;margin-top:18px}
-  .card h3{font-weight:400;font-size:clamp(24px,3vw,34px);letter-spacing:-.02em;margin:0;text-align:center}
-  .card p.sub{text-align:center;color:var(--ink-2);margin:8px 0 0}
-  .form{margin-top:26px;display:grid;grid-template-columns:1fr;gap:14px}
+  .card{background:#fff;border-radius:6px;padding:clamp(56px,8vw,110px) 24px 32px;display:flex;flex-direction:column;align-items:center;gap:26px}
+  .card .biglogo{width:min(78vw,720px);height:auto}
+  .links{width:100%;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;margin-top:40px}
+  .links nav{display:flex;gap:22px}
+
+  /* ---- the form lives in a modal ---- */
+  dialog{border:0;border-radius:12px;padding:0;max-width:min(92vw,720px);width:100%;background:#fff;box-shadow:0 40px 100px rgba(0,0,0,.25)}
+  dialog::backdrop{background:rgba(0,0,0,.45)}
+  .modal{padding:28px 24px 24px;max-height:86vh;overflow:auto}
+  .modal .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .modal h3{font-weight:400;font-size:clamp(24px,3vw,32px);letter-spacing:-.02em;margin:0}
+  .modal p.sub{color:var(--ink-2);margin:6px 0 0}
+  .x{width:36px;height:36px;border-radius:50%;background:var(--stage);border:0;display:grid;place-items:center;cursor:pointer;font-size:16px}
+  /* the dialog focuses its first control on open; no blue ring for that, only for keyboard users */
+  .x:focus{outline:none}
+  .x:focus-visible,.pill:focus-visible,.round:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .form{margin-top:22px;display:grid;grid-template-columns:1fr;gap:14px}
   @media (min-width:600px){.form{grid-template-columns:1fr 1fr}}
   .f{display:flex;flex-direction:column;gap:6px}
   .f.full,.form .foot2{grid-column:1 / -1}
   .f label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
   .f input,.f select,.f textarea{width:100%;appearance:none;-webkit-appearance:none;border:0;outline:0;background:var(--stage);border-radius:8px;padding:13px 14px;font:inherit;font-size:17px;color:var(--ink)}
-  .f textarea{resize:vertical;min-height:88px}
+  .f textarea{resize:vertical;min-height:80px}
   .f input::placeholder,.f textarea::placeholder{color:var(--ink-3)}
   .f select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px}
   .f select:invalid{color:var(--ink-3)}
   .f input:focus,.f select:focus,.f textarea:focus{box-shadow:inset 0 0 0 1.5px var(--ink)}
-  .form .foot2{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:6px}
-  .pill[disabled]{background:var(--ink-3);cursor:default}
-  .pill[disabled]::after{display:none}
+  .form .foot2{display:flex;flex-direction:column;gap:12px;align-items:flex-start;margin-top:4px}
   .form[hidden],.ok[hidden]{display:none}
-  .ok{margin-top:26px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
-  .links{width:100%;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;margin-top:40px}
-  .links nav{display:flex;gap:22px}
+  .ok{margin-top:22px;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
 
   /* ---- motion ---- */
   .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
   .reveal.on{opacity:1;transform:none}
   @media (prefers-reduced-motion:reduce){
     .reveal{opacity:1;transform:none;transition:none}
-    .pill::after{animation:none}
     .ph{transform:none !important}
     .pitch .w{color:var(--ink)}
+    .marquee .row{animation:none}
+    .trail{display:none}
   }
 </style>
 </head>
 <body>
 
 <header>
-  <a class="wordmark" href="/">typical<span class="dot">.</span></a>
+  <a href="/" aria-label="Typical"><img class="logo" src="img/logo.svg" alt="Typical" width="256" height="73"></a>
   <div class="right">
     <span class="mono quiet">Open beta</span>
-    <a class="pill" href="#get">Get the app</a>
+    <button class="pill" data-open>Get the app</button>
   </div>
 </header>
 
 <section class="hero" id="hero">
-  <div class="ph p1" data-s="0.18"><img src="img/jet.jpg" alt=""></div>
-  <div class="ph p2" data-s="0.32"><img src="img/porsche.jpg" alt=""></div>
-  <div class="ph p3" data-s="0.12"><img src="img/gallery.jpg" alt=""></div>
-  <div class="ph p4" data-s="0.40"><img src="img/jeweller.jpg" alt=""></div>
-  <div class="ph p5" data-s="0.26"><img src="img/ducati.jpg" alt=""></div>
-  <div class="ph p6" data-s="0.14"><img src="img/stallion.jpg" alt=""></div>
-  <div class="ph p7" data-s="0.36"><img src="img/marina.jpg" alt=""></div>
-  <div class="ph p8" data-s="0.22"><img src="img/atelier.jpg" alt=""></div>
-  <div class="ph p9" data-s="0.10"><img src="img/villa.jpg" alt=""></div>
-  <div class="ph p10" data-s="0.30"><img src="img/gwagon.jpg" alt=""></div>
-  <div class="ph p11" data-s="0.20"><img src="img/evtol.jpg" alt=""></div>
-  <div class="ph p12" data-s="0.34"><img src="img/stairs.jpg" alt=""></div>
+  <div class="ph p1" data-s="0.16"><img src="img/jet.jpg" alt=""></div>
+  <div class="ph p2" data-s="0.30"><img src="img/marina.jpg" alt=""></div>
+  <div class="ph p3" data-s="0.12"><img src="img/stallion.jpg" alt=""></div>
+  <div class="ph p4" data-s="0.22"><img src="img/porsche.jpg" alt=""></div>
+  <div class="ph p5" data-s="0.34"><img src="img/gwagon.jpg" alt=""></div>
+  <div class="ph p6" data-s="0.10"><img src="img/gallery.jpg" alt=""></div>
   <div class="center">
     <h1 class="statement xl">Your sales OS.</h1>
-    <div class="beta">
-      <span class="mono">Currently in open beta · iPhone</span>
-      <a class="sq" href="#written" aria-label="Scroll"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></a>
-    </div>
+    <span class="mono quiet">Currently in open beta · iPhone</span>
   </div>
 </section>
 
 <section class="inline" id="written">
   <span class="statement lg reveal">The reply,</span>
-  <span class="ph2 reveal"><img src="img/jet.jpg" alt="A seller beside a private jet"></span>
+  <span class="ph2 reveal"><img src="img/evtol.jpg" alt="A seller in front of an aircraft"></span>
   <span class="statement lg reveal">written with you.</span>
 </section>
 
-<section class="markets" id="markets" aria-roledescription="carousel">
-  <div class="slide on" data-market="Real estate" data-words="Reply|Recap|Follow up"><img src="img/villa.jpg" alt=""></div>
-  <div class="slide" data-market="Cars" data-words="Reply|Recap|Follow up"><img src="img/porsche.jpg" alt=""></div>
-  <div class="slide" data-market="Yachts" data-words="Reply|Recap|Follow up"><img src="img/marina.jpg" alt=""></div>
-  <div class="slide" data-market="Watches &amp; jewellery" data-words="Reply|Recap|Follow up"><img src="img/jeweller.jpg" alt=""></div>
-  <div class="slide" data-market="Aviation" data-words="Reply|Recap|Follow up"><img src="img/evtol.jpg" alt=""></div>
-  <div class="slide" data-market="Art" data-words="Reply|Recap|Follow up"><img src="img/gallery.jpg" alt=""></div>
-  <div class="lines" aria-hidden="true"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="50" y1="27" x2="-5" y2="62"/><line x1="50" y1="27" x2="105" y2="62"/></svg></div>
-  <p class="mono eyebrow">Built for the people who sell the extraordinary</p>
-  <p class="top" id="mkt">Real estate</p>
-  <p class="words" id="mwords"><span>Reply</span><span>Recap</span><span>Follow up</span></p>
-  <div class="nav"><button class="round" id="mprev" aria-label="Previous">‹</button><button class="round" id="mnext" aria-label="Next">›</button></div>
+<section class="markets">
+  <div class="head">
+    <span class="mono quiet">Built for the people who sell the extraordinary</span>
+    <div class="nav"><button class="round" id="mprev" aria-label="Previous">‹</button><button class="round" id="mnext" aria-label="Next">›</button></div>
+  </div>
+  <div class="rail" id="rail">
+    <div class="slide"><div class="img"><img src="img/villa.jpg" alt=""></div><div class="cap"><span class="line">The villa, the second viewing, the number she said out loud.</span><span class="mono quiet">Real estate</span></div></div>
+    <div class="slide"><div class="img"><img src="img/jeweller.jpg" alt=""></div><div class="cap"><span class="line">The anniversary is in March. Typical remembers so you can.</span><span class="mono quiet">Watches &amp; jewellery</span></div></div>
+    <div class="slide"><div class="img"><img src="img/ducati.jpg" alt=""></div><div class="cap"><span class="line">He asked about the red one twice. Lead with the red one.</span><span class="mono quiet">Cars &amp; bikes</span></div></div>
+    <div class="slide"><div class="img"><img src="img/atelier.jpg" alt=""></div><div class="cap"><span class="line">Bespoke means the details matter. All of them.</span><span class="mono quiet">Bespoke</span></div></div>
+    <div class="slide"><div class="img"><img src="img/stairs.jpg" alt=""></div><div class="cap"><span class="line">Your voice, at your sharpest, in every reply.</span><span class="mono quiet">Any high-ticket sale</span></div></div>
+  </div>
 </section>
 
 <section class="pitch">
   <p id="pitch">Typical is a personal AI sales assistant that lives in your iPhone keyboard. No CRM to update. No chatbot to visit. You stay in WhatsApp, iMessage or Signal — wherever the deal is actually happening — and Typical writes the reply with you, in your voice, knowing exactly who you're talking to.</p>
 </section>
 
-<section class="client reveal">
-  <div class="meta"><span class="mono quiet">Client</span><span class="mono quiet">14 details</span><span class="mono quiet">Last exchange · Thursday</span></div>
-  <h2>Ana Ferreira</h2>
-  <p class="sub">Penthouse, sea view, 3 bed · up to €2.4M · two kids, moving in August · asked about 12B</p>
-  <div class="big"><img src="img/hoboken-penthouse.jpg" alt="A penthouse living room with a city view"></div>
-</section>
-
-<section class="loop">
-  <div class="wedge reveal">Copy.<span class="mono quiet">What your client sent</span></div>
-  <div class="wedge reveal">Generate.<span class="mono quiet">One key on the Typical keyboard</span></div>
-  <div class="wedge reveal">Send.<span class="mono quiet">Or edit it first. You decide.</span></div>
-</section>
-
-<section class="rooms" id="rooms" aria-roledescription="carousel">
-  <div class="track" id="rtrack">
-    <div class="room"><img src="img/tribeca-loft.jpg" alt=""></div>
-    <div class="room"><img src="img/central-park-west.jpg" alt=""></div>
-    <div class="room"><img src="img/brooklyn-brownstone.jpg" alt=""></div>
-    <div class="room"><img src="img/hudson-yards.jpg" alt=""></div>
-    <div class="room"><img src="img/montclair-tudor.jpg" alt=""></div>
-    <div class="room"><img src="img/jersey-city-tower.jpg" alt=""></div>
-  </div>
-  <p class="mono eyebrow">It knows your listings too</p>
-  <p class="label" id="rlabel">Tribeca loft</p>
-  <div class="nav"><button class="round" id="rprev" aria-label="Previous">‹</button><button class="round" id="rnext" aria-label="Next">›</button></div>
+<section class="marquee" aria-label="What it does">
+  <div class="row"><span>Reply in your voice</span><span>Handle objections</span><span>Quote price and terms</span><span>Translate both ways</span><span>Recap before you answer</span><span>Follow up the quiet ones</span><span>Schedule from a sentence</span><span>Reply in your voice</span><span>Handle objections</span><span>Quote price and terms</span><span>Translate both ways</span><span>Recap before you answer</span><span>Follow up the quiet ones</span><span>Schedule from a sentence</span></div>
+  <div class="row rev"><span>It never guesses</span><span>It never reads your chats</span><span>It sounds like you</span><span>It knows who you're talking to</span><span>It never guesses</span><span>It never reads your chats</span><span>It sounds like you</span><span>It knows who you're talking to</span></div>
 </section>
 
 <section class="manifesto">
@@ -269,34 +215,9 @@
 
 <div class="foot" id="get">
   <div class="card">
-    <span class="mono quiet">Currently in open beta</span>
-    <span class="wordmark">typical<span class="dot">.</span></span>
-    <div class="wrap">
-      <h3>Get the app.</h3>
-      <p class="sub">Tell us how you sell so the first version fits your market. The link comes right after.</p>
-      <form id="leadForm" class="form" novalidate>
-        <div class="f"><label for="f-name">Full name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
-        <div class="f"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
-        <div class="f"><label for="f-whatsapp">WhatsApp (with country code)</label><input id="f-whatsapp" name="whatsapp" type="tel" autocomplete="tel" placeholder="+1 305 555 0134"></div>
-        <div class="f"><label for="f-market">City / market</label><input id="f-market" name="market" type="text" placeholder="Miami, São Paulo, Dubai…"></div>
-        <div class="f"><label for="f-sell">What do you sell?</label>
-          <select id="f-sell" name="sells" required><option value="" disabled selected>Select…</option><option>Real estate</option><option>Cars</option><option>Watches &amp; jewelry</option><option>Yachts &amp; aviation</option><option>Art &amp; collectibles</option><option>Bespoke services</option><option>Other</option></select></div>
-        <div class="f"><label for="f-deal">Average deal size</label>
-          <select id="f-deal" name="dealSize"><option value="" disabled selected>Select…</option><option>Under $50k</option><option>$50k – $250k</option><option>$250k – $1M</option><option>$1M+</option></select></div>
-        <div class="f"><label for="f-channel">Where do your deals happen?</label>
-          <select id="f-channel" name="channel"><option value="" disabled selected>Select…</option><option>WhatsApp, daily</option><option>WhatsApp + iMessage</option><option>Mostly email / phone</option></select></div>
-        <div class="f"><label for="f-iphone">Do you use an iPhone?</label>
-          <select id="f-iphone" name="iphone" required><option value="" disabled selected>Select…</option><option>Yes</option><option>No</option></select></div>
-        <div class="f full"><label for="f-story">The deal that got away — what did you forget? (optional)</label><textarea id="f-story" name="story" rows="3" placeholder="A promise, a detail, a follow-up that slipped…"></textarea></div>
-        <div class="foot2"><button class="pill big" type="submit">Get the link</button><span class="mono quiet">We read every one · no spam, ever</span></div>
-      </form>
-      <div id="formOk" class="ok" hidden>
-        <h3>Here's your link.</h3>
-        <p class="sub" id="formOkNote">Install TestFlight if you don't have it, then open this on your iPhone.</p>
-        <a class="pill big" href="https://testflight.apple.com/join/5yx5EDg5">Open in TestFlight</a>
-        <a class="mono" href="https://testflight.apple.com/join/5yx5EDg5">testflight.apple.com/join/5yx5EDg5</a>
-      </div>
-    </div>
+    <span class="mono quiet">Currently in open beta · iPhone</span>
+    <img class="biglogo" src="img/logo.svg" alt="Typical" width="256" height="73">
+    <button class="pill big" data-open>Get the app</button>
     <div class="links">
       <span class="mono quiet">© 2026 Typical · Valencia</span>
       <nav><a class="mono" href="/typical/terms.html">Terms of use</a><a class="mono" href="/typical/privacy.html">Privacy policy</a><a class="mono" href="mailto:support@typical.so">Support</a></nav>
@@ -304,54 +225,88 @@
   </div>
 </div>
 
+<dialog id="modal">
+  <div class="modal">
+    <div class="top"><span class="mono quiet">Open beta</span><button class="x" data-close aria-label="Close">✕</button></div>
+    <h3>Get the app.</h3>
+    <p class="sub">Tell us how you sell so the first version fits your market. The link comes right after.</p>
+    <form id="leadForm" class="form" novalidate>
+      <div class="f"><label for="f-name">Full name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+      <div class="f"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+      <div class="f"><label for="f-whatsapp">WhatsApp (with country code)</label><input id="f-whatsapp" name="whatsapp" type="tel" autocomplete="tel" placeholder="+1 305 555 0134"></div>
+      <div class="f"><label for="f-market">City / market</label><input id="f-market" name="market" type="text" placeholder="Miami, São Paulo, Dubai…"></div>
+      <div class="f"><label for="f-sell">What do you sell?</label>
+        <select id="f-sell" name="sells" required><option value="" disabled selected>Select…</option><option>Real estate</option><option>Cars</option><option>Watches &amp; jewelry</option><option>Yachts &amp; aviation</option><option>Art &amp; collectibles</option><option>Bespoke services</option><option>Other</option></select></div>
+      <div class="f"><label for="f-deal">Average deal size</label>
+        <select id="f-deal" name="dealSize"><option value="" disabled selected>Select…</option><option>Under $50k</option><option>$50k – $250k</option><option>$250k – $1M</option><option>$1M+</option></select></div>
+      <div class="f"><label for="f-channel">Where do your deals happen?</label>
+        <select id="f-channel" name="channel"><option value="" disabled selected>Select…</option><option>WhatsApp, daily</option><option>WhatsApp + iMessage</option><option>Mostly email / phone</option></select></div>
+      <div class="f"><label for="f-iphone">Do you use an iPhone?</label>
+        <select id="f-iphone" name="iphone" required><option value="" disabled selected>Select…</option><option>Yes</option><option>No</option></select></div>
+      <div class="f full"><label for="f-story">The deal that got away — what did you forget? (optional)</label><textarea id="f-story" name="story" rows="2" placeholder="A promise, a detail, a follow-up that slipped…"></textarea></div>
+      <div class="foot2"><button class="pill big" type="submit">Get the link</button><span class="mono quiet">We read every one · no spam, ever</span></div>
+    </form>
+    <div id="formOk" class="ok" hidden>
+      <h3>Here's your link.</h3>
+      <p class="sub" id="formOkNote">Install TestFlight if you don't have it, then open this on your iPhone.</p>
+      <a class="pill big" href="https://testflight.apple.com/join/5yx5EDg5">Open in TestFlight</a>
+      <a class="mono" href="https://testflight.apple.com/join/5yx5EDg5">testflight.apple.com/join/5yx5EDg5</a>
+    </div>
+  </div>
+</dialog>
+
 <script>
 (function(){
   var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var coarse=window.matchMedia('(pointer: coarse)').matches;
 
   /* reveals */
   var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}});},{threshold:.12});
   document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
 
-  /* hero parallax: each photo drifts at its own speed while the statement stays put */
+  /* hero parallax: the photos drift at their own speeds; they start in the margins and stay there */
   var hero=document.getElementById('hero'),phs=[].slice.call(hero.querySelectorAll('.ph'));
-  function parallax(){
-    var y=window.scrollY, h=hero.offsetHeight; if(y>h) return;
-    phs.forEach(function(p){ p.style.transform='translateY('+(-y*parseFloat(p.dataset.s))+'px)'; });
+  function parallax(){ var y=window.scrollY; if(y>hero.offsetHeight) return; phs.forEach(function(p){p.style.transform='translateY('+(-y*parseFloat(p.dataset.s))+'px)';}); }
+  if(!reduced){ window.addEventListener('scroll',function(){requestAnimationFrame(parallax);},{passive:true}); parallax(); }
+
+  /* the cursor trail: move the mouse across the hero and photos appear along the path, then let go */
+  var trailSrcs=phs.map(function(p){return p.querySelector('img').getAttribute('src');}),ti=0,last=null,live=0;
+  if(!reduced && !coarse){
+    hero.addEventListener('mousemove',function(e){
+      var r=hero.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+      if(last && Math.hypot(x-last.x,y-last.y)<110) return;
+      last={x:x,y:y}; if(live>10) return;
+      var d=document.createElement('div'); d.className='trail'; d.style.left=x+'px'; d.style.top=y+'px';
+      var im=document.createElement('img'); im.src=trailSrcs[ti++%trailSrcs.length]; im.alt=''; d.appendChild(im);
+      hero.appendChild(d); live++;
+      d.addEventListener('animationend',function(){ d.remove(); live--; });
+    });
   }
-  if(!reduced){ window.addEventListener('scroll',function(){ requestAnimationFrame(parallax); },{passive:true}); parallax(); }
 
-  /* markets carousel */
-  var slides=[].slice.call(document.querySelectorAll('#markets .slide')),mi=0,mkt=document.getElementById('mkt'),mw=document.getElementById('mwords');
-  function showMarket(i){
-    mi=(i+slides.length)%slides.length;
-    slides.forEach(function(s,k){s.classList.toggle('on',k===mi);});
-    mkt.innerHTML=slides[mi].dataset.market;
-    mw.innerHTML=slides[mi].dataset.words.split('|').map(function(w){return '<span>'+w+'</span>';}).join('');
-  }
-  document.getElementById('mprev').onclick=function(){showMarket(mi-1);};
-  document.getElementById('mnext').onclick=function(){showMarket(mi+1);};
-  if(!reduced) setInterval(function(){showMarket(mi+1);},5200);
+  /* markets: drag, scroll, or the arrows */
+  var rail=document.getElementById('rail');
+  function step(){ var s=rail.querySelector('.slide'); return s.getBoundingClientRect().width+12; }
+  document.getElementById('mprev').onclick=function(){ rail.scrollBy({left:-step(),behavior:'smooth'}); };
+  document.getElementById('mnext').onclick=function(){ rail.scrollBy({left:step(),behavior:'smooth'}); };
+  var down=false,sx=0,sl=0;
+  rail.addEventListener('mousedown',function(e){down=true;sx=e.pageX;sl=rail.scrollLeft;rail.classList.add('dragging');});
+  window.addEventListener('mouseup',function(){down=false;rail.classList.remove('dragging');});
+  rail.addEventListener('mousemove',function(e){ if(!down) return; e.preventDefault(); rail.scrollLeft=sl-(e.pageX-sx); });
 
-  /* rooms carousel */
-  var track=document.getElementById('rtrack'),rooms=track.children.length,ri=0,rlabel=document.getElementById('rlabel');
-  var rnames=['Tribeca loft','Central Park West','Brooklyn brownstone','Hudson Yards','Montclair Tudor','Jersey City tower'];
-  function showRoom(i){ ri=(i+rooms)%rooms; track.style.transform='translateX('+(-ri*100)+'%)'; rlabel.textContent=rnames[ri]; }
-  document.getElementById('rprev').onclick=function(){showRoom(ri-1);};
-  document.getElementById('rnext').onclick=function(){showRoom(ri+1);};
-
-  /* the pitch colours in word by word as it enters the screen */
+  /* the pitch colours in word by word */
   var pitch=document.getElementById('pitch');
   pitch.innerHTML=pitch.textContent.split(' ').map(function(w){return '<span class="w">'+w+'</span>';}).join(' ');
   var words=[].slice.call(pitch.querySelectorAll('.w'));
-  function paint(){
-    var r=pitch.getBoundingClientRect(), vh=window.innerHeight;
-    var t=Math.min(1,Math.max(0,(vh*0.85-r.top)/(r.height+vh*0.35)));
-    var n=Math.round(t*words.length);
-    words.forEach(function(w,k){w.classList.toggle('on',k<n);});
-  }
+  function paint(){ var r=pitch.getBoundingClientRect(),vh=window.innerHeight; var t=Math.min(1,Math.max(0,(vh*0.85-r.top)/(r.height+vh*0.35))); var n=Math.round(t*words.length); words.forEach(function(w,k){w.classList.toggle('on',k<n);}); }
   if(!reduced){ window.addEventListener('scroll',function(){requestAnimationFrame(paint);},{passive:true}); paint(); }
 
-  /* Get the app → the one place the link lives */
+  /* the modal */
+  var modal=document.getElementById('modal');
+  document.querySelectorAll('[data-open]').forEach(function(b){ b.addEventListener('click',function(){ modal.showModal(); }); });
+  document.querySelectorAll('[data-close]').forEach(function(b){ b.addEventListener('click',function(){ modal.close(); }); });
+  modal.addEventListener('click',function(e){ if(e.target===modal) modal.close(); });
+
+  /* the form: logs to the Sheets webhook, then hands the link back on the spot */
   var SHEETS_WEBHOOK_URL='https://script.google.com/macros/s/AKfycbzqbagE78qFTJ2f1K3YkCcqOH5Zc7GupExN2u5xxE0sX_CJL51MKpJek-8Vnmn_uASa/exec';
   var form=document.getElementById('leadForm'),ok=document.getElementById('formOk');
   form.addEventListener('submit',function(ev){
@@ -361,7 +316,7 @@
     var reveal=function(){
       form.hidden=true;
       if(data.iphone==='No') document.getElementById('formOkNote').textContent='Typical is iPhone-only today. Keep the link for when you are on one — and we will tell you the moment Android is on the map.';
-      ok.hidden=false; ok.scrollIntoView({block:'center',behavior:reduced?'auto':'smooth'});
+      ok.hidden=false;
     };
     fetch(SHEETS_WEBHOOK_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(data)}).then(reveal,reveal);
   });
