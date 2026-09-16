@@ -4,15 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Typical — Your sales OS</title>
-<meta name="description" content="Your sales OS. The AI sales assistant that lives in your iPhone keyboard — it writes the reply with you, in your voice, knowing who you're talking to.">
+<meta name="description" content="Your sales OS, in your iPhone keyboard. Everything about your clients, right where you type — WhatsApp, Messenger, Signal, email — and the reply, written with you.">
 <meta property="og:title" content="Typical — Your sales OS">
-<meta property="og:description" content="The AI sales assistant that lives in your iPhone keyboard. Writes the reply with you, in your voice.">
+<meta property="og:description" content="Your sales OS, in your iPhone keyboard. Everything about your clients, right where you type.">
 <meta property="og:image" content="https://typical.so/img/jet.jpg">
 <meta property="og:url" content="https://typical.so">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Typical — Your sales OS">
-<meta name="twitter:description" content="The AI sales assistant that lives in your iPhone keyboard. Writes the reply with you, in your voice.">
+<meta name="twitter:description" content="Your sales OS, in your iPhone keyboard. Everything about your clients, right where you type.">
 <meta name="twitter:image" content="https://typical.so/img/jet.jpg">
 <style>
   :root{
@@ -42,15 +42,14 @@
   .pill[disabled]{background:var(--ink-3);cursor:default}
   .round{width:48px;height:48px;border-radius:50%;background:var(--ink);color:#fff;border:0;display:grid;place-items:center;cursor:pointer;font-size:18px}
 
-  /* ---- header ---- */
-  header{position:sticky;top:8px;z-index:20;margin:8px 12px 0;background:#fff;border-radius:6px;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 0 rgba(0,0,0,.05)}
-  header .logo{height:22px;width:auto}
-  header .right{display:flex;align-items:center;gap:22px}
+  /* ---- no header: the logo sits on top of the statement and dissolves as you scroll ---- */
+  .hero .mark{width:clamp(140px,20vw,240px);height:auto;margin-bottom:6px;will-change:opacity}
 
   /* ---- hero: the statement owns the middle; photos live in the margins and drift ---- */
   .hero{position:relative;height:190vh;min-height:1200px;overflow:hidden;cursor:crosshair}
-  .hero .center{position:absolute;top:0;left:0;right:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:0 24px;z-index:3;pointer-events:none}
+  .hero .center{position:absolute;top:0;left:0;right:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:0 24px;z-index:3;pointer-events:none}
   .hero .center *{pointer-events:auto}
+  .hero .lead{margin:0;text-align:center;font-size:clamp(18px,2vw,24px);letter-spacing:-.01em;color:var(--ink-2);max-width:26em}
   .ph{position:absolute;overflow:hidden;will-change:transform;box-shadow:0 20px 50px rgba(0,0,0,.10)}
   .ph img{width:100%;height:100%;object-fit:cover}
   /* left column, right column, bottom band — the middle 32–68vw of the first screen is never touched */
@@ -115,7 +114,7 @@
   /* ---- footer card ---- */
   .foot{background:var(--stage);padding:12px}
   .card{background:#fff;border-radius:6px;padding:clamp(56px,8vw,110px) 24px 32px;display:flex;flex-direction:column;align-items:center;gap:26px}
-  .card .biglogo{width:min(78vw,720px);height:auto}
+  .card .biglogo{width:min(46vw,360px);height:auto}
   .links{width:100%;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;margin-top:40px}
   .links nav{display:flex;gap:22px}
 
@@ -151,6 +150,7 @@
   @media (prefers-reduced-motion:reduce){
     .reveal{opacity:1;transform:none;transition:none}
     .ph{transform:none !important}
+    .hero .mark{opacity:1 !important}
     .pitch .w{color:var(--ink)}
     .marquee .row{animation:none}
     .trail{display:none}
@@ -158,14 +158,6 @@
 </style>
 </head>
 <body>
-
-<header>
-  <a href="/" aria-label="Typical"><img class="logo" src="img/logo.svg" alt="Typical" width="256" height="73"></a>
-  <div class="right">
-    <span class="mono quiet">Open beta</span>
-    <button class="pill" data-open>Get the app</button>
-  </div>
-</header>
 
 <section class="hero" id="hero">
   <div class="ph p1" data-s="0.16"><img src="img/jet.jpg" alt=""></div>
@@ -175,7 +167,10 @@
   <div class="ph p5" data-s="0.34"><img src="img/gwagon.jpg" alt=""></div>
   <div class="ph p6" data-s="0.10"><img src="img/gallery.jpg" alt=""></div>
   <div class="center">
+    <img class="mark" id="mark" src="img/logo.svg" alt="Typical" width="256" height="73">
     <h1 class="statement xl">Your sales OS.</h1>
+    <p class="lead">Everything about your clients, right on your keyboard.</p>
+    <button class="pill" data-open>Get the app</button>
     <span class="mono quiet">Currently in open beta · iPhone</span>
   </div>
 </section>
@@ -188,20 +183,20 @@
 
 <section class="markets">
   <div class="head">
-    <span class="mono quiet">Built for the people who sell the extraordinary</span>
+    <span class="mono quiet">Every technical answer, in the palm of your hand</span>
     <div class="nav"><button class="round" id="mprev" aria-label="Previous">‹</button><button class="round" id="mnext" aria-label="Next">›</button></div>
   </div>
   <div class="rail" id="rail">
-    <div class="slide"><div class="img"><img src="img/villa.jpg" alt=""></div><div class="cap"><span class="line">The villa, the second viewing, the number she said out loud.</span><span class="mono quiet">Real estate</span></div></div>
-    <div class="slide"><div class="img"><img src="img/jeweller.jpg" alt=""></div><div class="cap"><span class="line">The anniversary is in March. Typical remembers so you can.</span><span class="mono quiet">Watches &amp; jewellery</span></div></div>
-    <div class="slide"><div class="img"><img src="img/ducati.jpg" alt=""></div><div class="cap"><span class="line">He asked about the red one twice. Lead with the red one.</span><span class="mono quiet">Cars &amp; bikes</span></div></div>
-    <div class="slide"><div class="img"><img src="img/atelier.jpg" alt=""></div><div class="cap"><span class="line">Bespoke means the details matter. All of them.</span><span class="mono quiet">Bespoke</span></div></div>
-    <div class="slide"><div class="img"><img src="img/stairs.jpg" alt=""></div><div class="cap"><span class="line">Your voice, at your sharpest, in every reply.</span><span class="mono quiet">Any high-ticket sale</span></div></div>
+    <div class="slide"><div class="img"><img src="img/villa.jpg" alt=""></div><div class="cap"><span class="line">Square metres, sun exposure, community fees, year built, parking, the taxes.</span><span class="mono quiet">Real estate</span></div></div>
+    <div class="slide"><div class="img"><img src="img/jeweller.jpg" alt=""></div><div class="cap"><span class="line">Rarity, reference, year, designer, signature, hardness, polish, provenance.</span><span class="mono quiet">Watches &amp; jewellery</span></div></div>
+    <div class="slide"><div class="img"><img src="img/ducati.jpg" alt=""></div><div class="cap"><span class="line">Horsepower, top speed, torque, customisation, delivery slot, warranty.</span><span class="mono quiet">Cars &amp; bikes</span></div></div>
+    <div class="slide"><div class="img"><img src="img/atelier.jpg" alt=""></div><div class="cap"><span class="line">Materials, lead time, fittings, the maker’s name, what can and cannot be changed.</span><span class="mono quiet">Bespoke</span></div></div>
+    <div class="slide"><div class="img"><img src="img/stairs.jpg" alt=""></div><div class="cap"><span class="line">Every spec, every number, every promise you made — before you finish typing.</span><span class="mono quiet">Any high-ticket sale</span></div></div>
   </div>
 </section>
 
 <section class="pitch">
-  <p id="pitch">Typical is a personal AI sales assistant that lives in your iPhone keyboard. No CRM to update. No chatbot to visit. You stay in WhatsApp, iMessage or Signal — wherever the deal is actually happening — and Typical writes the reply with you, in your voice, knowing exactly who you're talking to.</p>
+  <p id="pitch">Typical is your sales OS, and it lives in your iPhone keyboard. No CRM to update. No chatbot to visit. You stay in WhatsApp, Messenger, Signal, email or any other messenger — wherever the deal is actually happening — and Typical writes the reply with you, in your voice, knowing exactly who you're talking to.</p>
 </section>
 
 <section class="marquee" aria-label="What it does">
@@ -266,7 +261,8 @@
 
   /* hero parallax: the photos drift at their own speeds; they start in the margins and stay there */
   var hero=document.getElementById('hero'),phs=[].slice.call(hero.querySelectorAll('.ph'));
-  function parallax(){ var y=window.scrollY; if(y>hero.offsetHeight) return; phs.forEach(function(p){p.style.transform='translateY('+(-y*parseFloat(p.dataset.s))+'px)';}); }
+  var mark=document.getElementById('mark');
+  function parallax(){ var y=window.scrollY; if(y>hero.offsetHeight) return; phs.forEach(function(p){p.style.transform='translateY('+(-y*parseFloat(p.dataset.s))+'px)';}); mark.style.opacity=Math.max(0,1-y/(window.innerHeight*0.3)); }
   if(!reduced){ window.addEventListener('scroll',function(){requestAnimationFrame(parallax);},{passive:true}); parallax(); }
 
   /* the cursor trail: move the mouse across the hero and photos appear along the path, then let go */
