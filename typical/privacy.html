@@ -33,7 +33,7 @@
 <div class="wrap">
   <a class="brand" href="index.html">typical.</a>
   <h1>Privacy Policy</h1>
-  <p class="updated">Last Updated: 2026-06-04</p>
+  <p class="updated">Last Updated: 2026-09-16</p>
 
   <h2>Data Controller</h2>
   <p>Phelipe Santos Beserra, based in Valencia, Spain, acts as the data controller for Typical account data. For any privacy request, contact <a href="mailto:privacy@typical.so">privacy@typical.so</a>.</p>
@@ -43,11 +43,14 @@
     <p>Typical cannot read the conversations you have with your clients in iMessage, WhatsApp, Signal, Telegram, SMS, or email. Apple's keyboard sandbox prevents that and there is no background scraping — every request is one you explicitly start. This is not a marketing claim; it is enforced by the way the product is built.</p>
     <ul>
       <li>Apple's iOS keyboard sandbox prevents Typical from reading any other app's content. We do not request, and do not ship, any entitlement that would change this.</li>
+      <li>Unlike third-party "AI sales assistant" tools that proxy your WhatsApp Business account or hijack WhatsApp Web, Typical does not connect to WhatsApp, does not run a server-side inbox, and never sees the other side of any conversation.</li>
+      <li>The only message text that ever leaves your device is text you explicitly typed into the Typical keyboard, or content you explicitly pasted or shared into Typical.</li>
     </ul>
+    <p>Messages you ask Typical to write or transform are sent to OpenAI to generate the reply and to remember key client facts. OpenAI does not train on this data and deletes it within 30 days. The facts Typical derives and a short snippet of your latest exchange are stored encrypted in your account and synced across your devices, so your client memory follows you to a new phone.</p>
   </div>
 
   <h2>Data We Process</h2>
-  <p>Typical processes the following categories of data to deliver drafting, CRM, and workflow features:</p>
+  <p>Typical processes the following categories of data to deliver its drafting and client-record (CRM) features:</p>
   <ul>
     <li>Account identifiers, including social sign-in identifiers from Apple or Google.</li>
     <li>Usage metadata (timestamps, feature events, action outcomes).</li>
@@ -71,10 +74,10 @@
   <p>Sign in with Apple is processed entirely between your device and Apple. Typical receives only the identifier and the optional name you choose to share on first sign-in.</p>
 
   <h2>Client Profile Fields</h2>
-  <p>Client profile fields that you edit manually (for example budget, phone, email, and profession) are stored to keep CRM records accurate and to support profile-level workflows.</p>
+  <p>Client profile fields that you edit manually (for example budget, phone, email, and profession) are stored to keep CRM records accurate and to fill in drafts about that client.</p>
 
   <h2>Analytics Telemetry</h2>
-  <p>Typical logs timestamped product usage events (for example AI assists generated, action outcomes, and workflow execution states) to power period-based analytics requested in the conversational interface. These analytics events are used for product reporting and are not sold to third parties.</p>
+  <p>Typical logs timestamped product usage events (for example AI assists generated and action outcomes) to power period-based analytics requested in the conversational interface. These analytics events are used for product reporting and are not sold to third parties.</p>
 
   <h2>Voice Note Processing</h2>
   <p>When you record voice notes, audio is securely transmitted to our backend and processed by OpenAI's transcription service to convert speech into text. This transcription is used only to power Typical features and is handled according to our data processing policies. Audio is not retained after transcription.</p>
@@ -92,8 +95,21 @@
   <ul>
     <li>Keyboard (ClefKeyboard): only text you explicitly type or paste into the Typical keyboard leaves the device. The keyboard cannot read other apps' content.</li>
     <li>Share extension (ClefShare): only items you explicitly tap "Share to Typical" on are ingested. No network calls happen inside the extension itself; it only copies the file to a local App Group container for the main app to process.</li>
-    <li>Backend logging: per AI request, the server stores model name, token counts, and cost estimate. It does not store the system prompt, the user message body, the conversation history, or the model's reply.</li>
+    <li>Backend logging: per AI request, the server stores model name, token counts, and cost estimate in <code>users/{uid}/ai_usage_events</code>. It does not store the system prompt, the user message body, the conversation history, or the model's reply.</li>
+    <li>Diagnostic logs: when a request to a third-party service fails, the server writes a diagnostic line to Google Cloud Logging containing an event tag, your account id, the model, the HTTP status, and the upstream error code and message. Message bodies, recipients and access tokens are stripped before anything is written, and these logs are kept under Google Cloud Logging's default retention period.</li>
+    <li>CRM sync (main app): your saved clients — the facts Typical derives, the context-summary dossier, and a short snippet of your latest exchange truncated to about 600 characters — are stored encrypted in your private <code>users/{uid}</code> document and synced across your devices. This is a separate path from backend logging, and it is what lets your client memory follow you to a new phone.</li>
+    <li>OpenAI: the message you ask Typical to write or transform is sent to OpenAI to generate the reply and extract facts. Per OpenAI's API policy this data is not used to train their models and is deleted within 30 days.</li>
   </ul>
+
+  <h2>Not in Production</h2>
+  <p>Some capabilities exist in the codebase but are switched off in the build you can install. They do not run, and they do not process your data. As of the "Last Updated" date above, that includes:</p>
+  <ul>
+    <li><strong>Sequences and automated workflows.</strong> Multi-step outreach is not enabled. Nothing is sent on a schedule without you.</li>
+    <li><strong>Paid plans.</strong> No payment is processed and no card details are collected. See the <a href="terms.html">Terms of Service</a>.</li>
+    <li><strong>Gift and restaurant matching.</strong> Not enabled.</li>
+    <li><strong>Reading your email.</strong> Typical has never requested a Gmail read scope and does not ship one. The only Gmail permission it can ask for is <code>gmail.send</code>.</li>
+  </ul>
+  <p>If any of these is switched on, this page and the date above change before it reaches you.</p>
 
   <h2>Data Retention &amp; Deletion</h2>
   <p>You can delete your Typical account at any time from Account Settings. For your security, we may ask you to sign in again to confirm it's you before deletion. Deletion removes your CRM records, drafts, voice notes, Gmail tokens, and analytics events from our production systems and propagates within 30 days. AI usage events older than 12 months are aggregated (per-event rows are dropped, only monthly totals are retained for billing and capacity planning). Firebase backups rotate on the standard 30-day cycle.</p>
